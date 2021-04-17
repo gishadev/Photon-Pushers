@@ -1,9 +1,8 @@
-﻿using Gisha.Pushers.Core;
-using Photon.Pun;
+﻿using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
-namespace Gisha.Pushers.Photon
+namespace Gisha.Pushers.Core
 {
     public class PhotonMaster : MonoBehaviourPunCallbacks
     {
@@ -24,7 +23,7 @@ namespace Gisha.Pushers.Photon
         public override void OnJoinRandomFailed(short returnCode, string message)
         {
             var roomName = Random.Range(0, 1000).ToString();
-            var options = new RoomOptions() {MaxPlayers = 2, IsOpen = true, IsVisible = true };
+            var options = new RoomOptions() { MaxPlayers = 2, IsOpen = true, IsVisible = true };
 
             PhotonNetwork.CreateRoom(roomName, options);
 
