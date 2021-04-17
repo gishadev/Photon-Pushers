@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Gisha.Pushers.Player
+namespace Gisha.Pushers.Core
 {
     public class PlayerMovement : MonoBehaviour
     {

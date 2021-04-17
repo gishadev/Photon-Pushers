@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using Gisha.Pushers.Core;
+using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 
@@ -33,7 +34,8 @@ namespace Gisha.Pushers.Photon
         public override void OnJoinedRoom()
         {
             Debug.Log("Successfully connected to room.");
-            PhotonNetwork.Instantiate("Player", new Vector3(0, 0, 0), Quaternion.identity);
+            Vector3 position = GameManager.Spawnpoints[PhotonNetwork.PlayerList.Length - 1].position;
+            PhotonNetwork.Instantiate("Player", position, Quaternion.identity);
         }
     }
 }
