@@ -33,8 +33,7 @@ namespace Gisha.Pushers.Core
         public override void OnJoinedRoom()
         {
             Debug.Log("Successfully connected to room.");
-            Vector3 position = GameManager.Spawnpoints[Mathf.Max(PhotonNetwork.PlayerList.Length - 1, 0)].position;
-            PhotonNetwork.Instantiate("Player", position, Quaternion.identity);
+            PhotonNetwork.Instantiate("PlayerManager", Vector3.zero, Quaternion.identity);
         }
     }
 }
