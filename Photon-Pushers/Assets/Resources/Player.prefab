@@ -168,4 +168,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 5
   pushMagnitude: 5
-  raycastDst: 1.5

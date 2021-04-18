@@ -5,12 +5,9 @@ namespace Gisha.Pushers.Core
 {
     public class PlayerMovement : MonoBehaviour
     {
-        [Header("Movement")]
+        [Header("General")]
         [SerializeField] private float movementSpeed;
-
-        [Header("Push")]
         [SerializeField] private float pushMagnitude;
-        [SerializeField] private float raycastDst;
 
         Vector3 _angularInput;
         Vector3 _pushInput;
@@ -30,7 +27,7 @@ namespace Gisha.Pushers.Core
                 return;
 
             Move();
-            CheckForPush();
+            PushInput();
         }
 
         private void Move()
@@ -39,24 +36,10 @@ namespace Gisha.Pushers.Core
             _rb.angularVelocity = _angularInput * movementSpeed;
         }
 
-        private void CheckForPush()
+        private void PushInput()
         {
             _pushInput = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")).normalized;
             _pushInput *= -1f;
-
-            if (Physics.Raycast(transform.position, _pushInput, out RaycastHit hitInfo, raycastDst))
-            {
-                if (hitInfo.collider.CompareTag("Player"))
-                {
-                    var pv = hitInfo.collider.GetComponent<PhotonView>();
-
-                    if (!pv.IsMine)
-                    {
-                        var pushForce = _pushInput * pushMagnitude;
-                        pv.RPC("PushMe", RpcTarget.All, pushForce);
-                    }
-                }
-            }
         }
 
         [PunRPC]
@@ -65,10 +48,24 @@ namespace Gisha.Pushers.Core
             _rb.AddForce(pushForce);
         }
 
+        private void OnCollisionStay(Collision collision)
+        {
+            if (collision.collider.CompareTag("Player"))
+            {
+                var pv = collision.collider.GetComponent<PhotonView>();
+
+                if (!pv.IsMine)
+                {
+                    var pushForce = _pushInput * (_rb.velocity.magnitude + pushMagnitude);
+                    pv.RPC("PushMe", RpcTarget.All, pushForce);
+                }
+            }
+        }
+
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawRay(transform.position, _pushInput * raycastDst);
+            Gizmos.DrawRay(transform.position, _pushInput);
         }
     }
 }
