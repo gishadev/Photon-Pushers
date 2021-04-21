@@ -9,6 +9,15 @@ namespace Gisha.Pushers.Core
         [SerializeField] private float movementSpeed;
         [SerializeField] private float pushMagnitude;
 
+        [Header("Jumping")]
+        [SerializeField] private float jumpForce;
+        [SerializeField] private LayerMask whatIsGround;
+
+        [Header("Ground Raycast")]
+        [SerializeField] private float raycastRadius;
+        [SerializeField] private float raycastDistance;
+
+
         Vector3 _angularInput;
         Vector3 _pushInput;
 
@@ -28,6 +37,9 @@ namespace Gisha.Pushers.Core
 
             Move();
             PushInput();
+
+            if (IsGrounded())
+                JumpCheck();
         }
 
         private void Move()
@@ -40,6 +52,18 @@ namespace Gisha.Pushers.Core
         {
             _pushInput = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")).normalized;
             _pushInput *= -1f;
+        }
+
+        private void JumpCheck()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+                _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+
+        private bool IsGrounded()
+        {
+            Ray ray = new Ray(transform.position, Vector3.down);
+            return Physics.SphereCast(ray, raycastRadius, raycastDistance, whatIsGround);
         }
 
         [PunRPC]

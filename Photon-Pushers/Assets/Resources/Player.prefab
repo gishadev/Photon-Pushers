@@ -167,4 +167,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 5
-  pushMagnitude: 5
+  pushMagnitude: 15
+  jumpForce: 5
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  raycastRadius: 0.5
+  raycastDistance: 0.8
