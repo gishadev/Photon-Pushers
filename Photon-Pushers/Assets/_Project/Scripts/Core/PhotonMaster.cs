@@ -33,7 +33,7 @@ namespace Gisha.Pushers.Core
         public override void OnJoinedRoom()
         {
             Debug.Log("Successfully connected to room.");
-            PhotonNetwork.Instantiate("PlayerManager", Vector3.zero, Quaternion.identity);
+            PhotonNetwork.Instantiate("PlayerManager", new Vector3(0f, 0f, 0f), Quaternion.identity);
         }
     }
 }
