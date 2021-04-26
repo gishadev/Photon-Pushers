@@ -2,21 +2,44 @@
 using Photon.Realtime;
 using UnityEngine;
 
-namespace Gisha.Pushers.Core
+namespace Gisha.Pushers.Photon
 {
     public class PhotonMaster : MonoBehaviourPunCallbacks
     {
+        #region Singleton
+        public static PhotonMaster Instance { get; private set; }
+        #endregion
+
         private void Awake()
         {
-            PhotonNetwork.ConnectUsingSettings();
-
-            Debug.Log("Connecting to Photon");
+            CreateInstance();
+            ConnectToPhoton();
         }
 
+        private void CreateInstance()
+        {
+            if (Instance == null)
+                Instance = this;
+            else
+            {
+                if (Instance != this)
+                {
+                    Destroy(Instance.gameObject);
+                    Instance = this;
+                }
+            }
+            DontDestroyOnLoad(gameObject);
+        }
+
+        private void ConnectToPhoton()
+        {
+            PhotonNetwork.ConnectUsingSettings();
+            Debug.Log("Connecting to Photon...");
+        }
+
+        #region Callbacks
         public override void OnConnectedToMaster()
         {
-            PhotonNetwork.JoinRandomRoom();
-
             Debug.Log("Successfully connected to Photon.");
         }
 
@@ -35,5 +58,6 @@ namespace Gisha.Pushers.Core
             Debug.Log("Successfully connected to room.");
             PhotonNetwork.Instantiate("PlayerManager", new Vector3(0f, 0f, 0f), Quaternion.identity);
         }
+        #endregion
     }
 }
