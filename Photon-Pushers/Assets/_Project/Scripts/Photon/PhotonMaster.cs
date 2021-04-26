@@ -10,8 +10,13 @@ namespace Gisha.Pushers.Photon
         public static PhotonMaster Instance { get; private set; }
         #endregion
 
+        public static ClientData ClientData { private set; get; }
+
         private void Awake()
         {
+            ClientData = new ClientData();
+            ClientData.SetNickname($"Player {Random.Range(0,10000)}");
+
             CreateInstance();
             ConnectToPhoton();
         }
@@ -37,27 +42,67 @@ namespace Gisha.Pushers.Photon
             Debug.Log("Connecting to Photon...");
         }
 
+        public void CreateRoom(string name)
+        {
+            Debug.Log("Creating Room...");
+
+            // Setting room name.
+            string roomName = name;
+
+            if (roomName.Length <= 1)
+                roomName = string.Format("{0}'s Room", PhotonMaster.ClientData.Nickname);
+
+            // Setting room options.
+            RoomOptions opt = new RoomOptions() { MaxPlayers = 2, IsOpen = true, IsVisible = true };
+            PhotonNetwork.JoinOrCreateRoom(roomName, opt, TypedLobby.Default);
+        }
+
         #region Callbacks
         public override void OnConnectedToMaster()
         {
             Debug.Log("Successfully connected to Photon.");
         }
 
-        public override void OnJoinRandomFailed(short returnCode, string message)
-        {
-            var roomName = Random.Range(0, 1000).ToString();
-            var options = new RoomOptions() { MaxPlayers = 2, IsOpen = true, IsVisible = true };
+        //public override void OnJoinRandomFailed(short returnCode, string message)
+        //{
+        //    var roomName = Random.Range(0, 1000).ToString();
+        //    var options = new RoomOptions() { MaxPlayers = 2, IsOpen = true, IsVisible = true };
 
-            PhotonNetwork.CreateRoom(roomName, options);
+        //    PhotonNetwork.CreateRoom(roomName, options);
 
-            Debug.Log("Failed to join random room. Creating a new one.");
-        }
+        //    Debug.Log("<color=red>Failed to join a random room! Creating a new one.</color>");
+        //}
 
         public override void OnJoinedRoom()
         {
-            Debug.Log("Successfully connected to room.");
-            PhotonNetwork.Instantiate("PlayerManager", new Vector3(0f, 0f, 0f), Quaternion.identity);
+            Debug.Log("<color=green>Successfully joined to a room</color>");
+            //PhotonNetwork.Instantiate("PlayerManager", new Vector3(0f, 0f, 0f), Quaternion.identity);
+        }
+
+        public override void OnCreatedRoom()
+        {
+            Debug.Log("<color=green>Room was successfully created!</color>");
+        }
+
+        public override void OnCreateRoomFailed(short returnCode, string message)
+        {
+            Debug.Log("<color=red>Failed to create a room!</color>");
+        }
+
+        public override void OnJoinRoomFailed(short returnCode, string message)
+        {
+            Debug.Log("<color=red>Failed to join a room!</color>");
         }
         #endregion
+    }
+
+    public struct ClientData
+    {
+        public string Nickname { get; private set; }
+
+        public void SetNickname(string name)
+        {
+            Nickname = name;
+        }
     }
 }

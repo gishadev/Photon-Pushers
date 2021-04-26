@@ -12,6 +12,5 @@ namespace Gisha.Pushers.MainMenu
                 menus[i].SetActive(false);
             menus[menuToChange].SetActive(true);
         }
-
     }
 }
