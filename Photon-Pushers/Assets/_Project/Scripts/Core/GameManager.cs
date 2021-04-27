@@ -1,4 +1,6 @@
+using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Gisha.Pushers.Core
 {
@@ -11,6 +13,26 @@ namespace Gisha.Pushers.Core
         private void Awake()
         {
             Spawnpoints = spawnpoints;
+        }
+
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            CreatePlayerManager();
+        }
+
+        private void CreatePlayerManager()
+        {
+            PhotonNetwork.Instantiate("PlayerManager", new Vector3(0f, 0f, 0f), Quaternion.identity);
         }
     }
 }

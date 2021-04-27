@@ -1,11 +1,11 @@
-using Gisha.Pushers.MainMenu;
+using Gisha.Pushers.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-namespace Gisha.Pushers.Photon
+namespace Gisha.Pushers.MainMenu
 {
     public class RoomListingManager : MonoBehaviourPunCallbacks
     {

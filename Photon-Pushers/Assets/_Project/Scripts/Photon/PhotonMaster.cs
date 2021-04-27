@@ -16,8 +16,12 @@ namespace Gisha.Pushers.Photon
         {
             ClientData = new ClientData();
             ClientData.SetNickname($"Player {Random.Range(0, 10000)}");
-
             CreateInstance();
+        }
+
+        private void Start()
+        {
+            PhotonNetwork.AutomaticallySyncScene = true;
             ConnectToPhoton();
         }
 
@@ -74,7 +78,6 @@ namespace Gisha.Pushers.Photon
         public override void OnJoinedRoom()
         {
             Debug.Log("<color=green>Successfully joined to a room</color>");
-            //PhotonNetwork.Instantiate("PlayerManager", new Vector3(0f, 0f, 0f), Quaternion.identity);
         }
 
         public override void OnCreatedRoom()
@@ -90,6 +93,11 @@ namespace Gisha.Pushers.Photon
         public override void OnJoinRoomFailed(short returnCode, string message)
         {
             Debug.Log("<color=red>Failed to join a room!</color>");
+        }
+
+        public override void OnDisconnected(DisconnectCause cause)
+        {
+            PhotonNetwork.JoinLobby();
         }
         #endregion
     }

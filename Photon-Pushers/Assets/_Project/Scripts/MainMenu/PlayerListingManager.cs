@@ -1,10 +1,9 @@
-﻿using Gisha.Pushers.MainMenu;
-using Photon.Pun;
+﻿using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Gisha.Pushers.Photon
+namespace Gisha.Pushers.MainMenu
 {
     public class PlayerListingManager : MonoBehaviourPunCallbacks
     {
