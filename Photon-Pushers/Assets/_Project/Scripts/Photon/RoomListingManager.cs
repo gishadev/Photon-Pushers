@@ -1,3 +1,4 @@
+using Gisha.Pushers.MainMenu;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Gisha.Pushers.Photon
         [SerializeField] private GameObject roomListingPrefab;
         [SerializeField] private TMP_Text nameInputText;
 
-        Dictionary<string, RoomListing> roomListings = new Dictionary<string, RoomListing>();
+        Dictionary<string, RoomListing> _listings = new Dictionary<string, RoomListing>();
 
         public void OnClick_CreateRoom()
         {
@@ -20,32 +21,37 @@ namespace Gisha.Pushers.Photon
             Debug.Log("Creating room...");
         }
 
+        public override void OnCreatedRoom()
+        {
+            MenuManager.Instance.ChangeMenu(2);
+        }
+
         public override void OnRoomListUpdate(List<RoomInfo> roomList)
         {
             foreach (var info in roomList)
             {
                 // Remove room Listing.
-                if (roomListings.ContainsKey(info.Name) && info.RemovedFromList)
+                if (_listings.ContainsKey(info.Name) && info.RemovedFromList)
                 {
-                    Destroy(roomListings[info.Name].gameObject);
-                    roomListings.Remove(info.Name);
+                    Destroy(_listings[info.Name].gameObject);
+                    _listings.Remove(info.Name);
                 }
 
                 if (!info.RemovedFromList)
                 {
                     // Add new room listing.
-                    if (!roomListings.ContainsKey(info.Name))
+                    if (!_listings.ContainsKey(info.Name))
                     {
                         var listing = Instantiate(roomListingPrefab, contentTrans).GetComponent<RoomListing>();
                         listing.SetInfo(info.Name, "Unknown Player", info.PlayerCount, info.MaxPlayers);
 
-                        roomListings.Add(info.Name, listing);
+                        _listings.Add(info.Name, listing);
                     }
 
                     // Update room listing.
                     else
                     {
-                        roomListings[info.Name].SetInfo(info.Name, "Unknown Player", info.PlayerCount, info.MaxPlayers);
+                        _listings[info.Name].SetInfo(info.Name, "Unknown Player", info.PlayerCount, info.MaxPlayers);
                     }
                 }
             }

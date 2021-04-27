@@ -50,7 +50,7 @@ namespace Gisha.Pushers.Photon
             string roomName = name;
 
             if (roomName.Length <= 1)
-                roomName = string.Format("{0}'s Room", PhotonMaster.ClientData.Nickname);
+                roomName = string.Format("{0}'s Room", PhotonMaster.ClientData.NickName);
 
             // Setting room options.
             RoomOptions opt = new RoomOptions() { MaxPlayers = 2, IsOpen = true, IsVisible = true };
@@ -61,6 +61,14 @@ namespace Gisha.Pushers.Photon
         public override void OnConnectedToMaster()
         {
             Debug.Log("Successfully connected to Photon.");
+            PhotonNetwork.JoinLobby();
+
+            Debug.Log("Joining to a lobby...");
+        }
+
+        public override void OnJoinedLobby()
+        {
+            Debug.Log("<color=green>Successfully joined to a lobby</color>");
         }
 
         //public override void OnJoinRandomFailed(short returnCode, string message)
@@ -98,11 +106,11 @@ namespace Gisha.Pushers.Photon
 
     public struct ClientData
     {
-        public string Nickname { get; private set; }
+        public string NickName { get; private set; }
 
         public void SetNickname(string name)
         {
-            Nickname = name;
+            NickName = name;
         }
     }
 }

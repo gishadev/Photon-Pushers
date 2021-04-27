@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace Gisha.Pushers.Photon
+namespace Gisha.Pushers.MainMenu
 {
     public class RoomListing : MonoBehaviour
     {
