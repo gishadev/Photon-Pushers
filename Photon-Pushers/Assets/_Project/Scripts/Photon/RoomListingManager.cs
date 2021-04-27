@@ -43,7 +43,7 @@ namespace Gisha.Pushers.Photon
                     if (!_listings.ContainsKey(info.Name))
                     {
                         var listing = Instantiate(roomListingPrefab, contentTrans).GetComponent<RoomListing>();
-                        listing.SetInfo(info.Name, "Unknown Player", info.PlayerCount, info.MaxPlayers);
+                        listing.SetInfo(info.Name, PhotonNetwork.MasterClient.NickName, info.PlayerCount, info.MaxPlayers);
 
                         _listings.Add(info.Name, listing);
                     }

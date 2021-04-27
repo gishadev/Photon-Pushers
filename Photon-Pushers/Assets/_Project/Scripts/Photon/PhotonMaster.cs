@@ -15,7 +15,7 @@ namespace Gisha.Pushers.Photon
         private void Awake()
         {
             ClientData = new ClientData();
-            ClientData.SetNickname($"Player {Random.Range(0,10000)}");
+            ClientData.SetNickname($"Player {Random.Range(0, 10000)}");
 
             CreateInstance();
             ConnectToPhoton();
@@ -50,7 +50,7 @@ namespace Gisha.Pushers.Photon
             string roomName = name;
 
             if (roomName.Length <= 1)
-                roomName = string.Format("{0}'s Room", PhotonMaster.ClientData.NickName);
+                roomName = $"{ClientData.NickName}'s Room";
 
             // Setting room options.
             RoomOptions opt = new RoomOptions() { MaxPlayers = 2, IsOpen = true, IsVisible = true };
@@ -70,16 +70,6 @@ namespace Gisha.Pushers.Photon
         {
             Debug.Log("<color=green>Successfully joined to a lobby</color>");
         }
-
-        //public override void OnJoinRandomFailed(short returnCode, string message)
-        //{
-        //    var roomName = Random.Range(0, 1000).ToString();
-        //    var options = new RoomOptions() { MaxPlayers = 2, IsOpen = true, IsVisible = true };
-
-        //    PhotonNetwork.CreateRoom(roomName, options);
-
-        //    Debug.Log("<color=red>Failed to join a random room! Creating a new one.</color>");
-        //}
 
         public override void OnJoinedRoom()
         {
@@ -111,6 +101,7 @@ namespace Gisha.Pushers.Photon
         public void SetNickname(string name)
         {
             NickName = name;
+            PhotonNetwork.LocalPlayer.NickName = name;
         }
     }
 }

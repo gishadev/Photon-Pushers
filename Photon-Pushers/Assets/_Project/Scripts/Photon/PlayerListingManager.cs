@@ -13,6 +13,11 @@ namespace Gisha.Pushers.Photon
 
         Dictionary<string, PlayerListing> _listings = new Dictionary<string, PlayerListing>();
 
+        public override void OnJoinedRoom()
+        {
+            CreateNewListings();
+        }
+
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
             DeleteOldListings();
