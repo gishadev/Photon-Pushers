@@ -26,7 +26,7 @@ namespace Gisha.Pushers.MainMenu
             RefreshListings(PhotonMaster.Instance.Rooms);
         }
 
-        public override void OnCreatedRoom()
+        public override void OnJoinedRoom()
         {
             MenuManager.Instance.ChangeMenu(2);
         }
@@ -43,7 +43,7 @@ namespace Gisha.Pushers.MainMenu
             foreach (var info in roomList)
             {
                 var listing = Instantiate(roomListingPrefab, contentTrans).GetComponent<RoomListing>();
-                listing.SetInfo(info.Name, info.PlayerCount, info.MaxPlayers);
+                listing.SetInfo(info);
 
                 _listings.Add(info.Name, listing);
             }

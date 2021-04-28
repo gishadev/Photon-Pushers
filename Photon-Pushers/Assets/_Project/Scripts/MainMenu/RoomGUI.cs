@@ -24,6 +24,11 @@ namespace Gisha.Pushers.MainMenu
             SetGUIInfo(PhotonNetwork.CurrentRoom.Name);
         }
 
+        public override void OnLeftRoom()
+        {
+            MenuManager.Instance.ChangeMenu(1);
+        }
+
         public void SetGUIInfo(string roomName)
         {
             titleText.text = roomName;

@@ -60,6 +60,13 @@ namespace Gisha.Pushers.Photon
             PhotonNetwork.JoinOrCreateRoom(roomName, opt, TypedLobby.Default);
         }
 
+        public void JoinRoom(string name)
+        {
+            Debug.Log("Joining Room...");
+
+            PhotonNetwork.JoinRoom(name);
+        }
+
         #region Callbacks
         public override void OnConnectedToMaster()
         {

@@ -1,17 +1,31 @@
+using Gisha.Pushers.Photon;
+using Photon.Realtime;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Gisha.Pushers.MainMenu
 {
-    public class RoomListing : MonoBehaviour
+    public class RoomListing : MonoBehaviour, IPointerDownHandler
     {
         [SerializeField] private TMP_Text roomNameText;
         [SerializeField] private TMP_Text roomPlayersCountText;
 
-        public void SetInfo(string roomName, int currentPlayersCount, int maxPlayersCount)
+        public RoomInfo RoomInfo { get; private set; }
+
+        public void OnPointerDown(PointerEventData eventData)
         {
-            roomNameText.text = roomName;
-            roomPlayersCountText.text = $"[{currentPlayersCount}/{maxPlayersCount}]";
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                PhotonMaster.Instance.JoinRoom(RoomInfo.Name);
+            }
+        }
+
+        public void SetInfo(RoomInfo roomInfo)
+        {
+            RoomInfo = roomInfo;
+            roomNameText.text = roomInfo.Name;
+            roomPlayersCountText.text = $"[{roomInfo.PlayerCount}/{roomInfo.MaxPlayers}]";
         }
     }
 }
