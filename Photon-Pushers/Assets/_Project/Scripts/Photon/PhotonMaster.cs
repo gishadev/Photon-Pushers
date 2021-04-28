@@ -9,13 +9,9 @@ namespace Gisha.Pushers.Photon
         #region Singleton
         public static PhotonMaster Instance { get; private set; }
         #endregion
-
-        public static ClientData ClientData { private set; get; }
-
         private void Awake()
         {
-            ClientData = new ClientData();
-            ClientData.SetNickname($"Player {Random.Range(0, 10000)}");
+            PhotonNetwork.LocalPlayer.NickName = $"Player {Random.Range(0, 10000)}";
             CreateInstance();
         }
 
@@ -54,8 +50,7 @@ namespace Gisha.Pushers.Photon
             string roomName = name;
 
             if (roomName.Length <= 1)
-                roomName = $"{ClientData.NickName}'s Room";
-
+                roomName = $"{PhotonNetwork.LocalPlayer.NickName}'s Room";
             // Setting room options.
             RoomOptions opt = new RoomOptions() { MaxPlayers = 2, IsOpen = true, IsVisible = true };
             PhotonNetwork.JoinOrCreateRoom(roomName, opt, TypedLobby.Default);
@@ -100,16 +95,5 @@ namespace Gisha.Pushers.Photon
             PhotonNetwork.JoinLobby();
         }
         #endregion
-    }
-
-    public struct ClientData
-    {
-        public string NickName { get; private set; }
-
-        public void SetNickname(string name)
-        {
-            NickName = name;
-            PhotonNetwork.LocalPlayer.NickName = name;
-        }
     }
 }

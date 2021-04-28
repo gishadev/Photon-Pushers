@@ -10,10 +10,12 @@ namespace Gisha.Pushers.MainMenu
         [SerializeField] private Transform contentTrans;
         [SerializeField] private GameObject playerListingPrefab;
 
-        Dictionary<string, PlayerListing> _listings = new Dictionary<string, PlayerListing>();
+        // Dictionary<string, PlayerListing> _listings = new Dictionary<string, PlayerListing>();
+        List<PlayerListing> _listings = new List<PlayerListing>();
 
         public override void OnJoinedRoom()
         {
+            DeleteOldListings();
             CreateNewListings();
         }
 
@@ -36,48 +38,16 @@ namespace Gisha.Pushers.MainMenu
                 var listing = Instantiate(playerListingPrefab, contentTrans).GetComponent<PlayerListing>();
                 listing.SetInfo(player.NickName);
 
-                _listings.Add(player.NickName, listing);
+                _listings.Add(listing);
             }
         }
 
-        private void DeleteOldListings()
+        public void DeleteOldListings()
         {
             foreach (var l in _listings)
-                Destroy(l.Value.gameObject);
+                Destroy(l.gameObject);
 
-            _listings = new Dictionary<string, PlayerListing>();
+            _listings = new List<PlayerListing>();
         }
-
-        //public override void OnRoomListUpdate(List<RoomInfo> roomList)
-        //{
-        //    foreach (var info in roomList)
-        //    {
-        //        // Remove room Listing.
-        //        if (listings.ContainsKey(info.Name) && info.RemovedFromList)
-        //        {
-        //            Destroy(listings[info.Name].gameObject);
-        //            listings.Remove(info.Name);
-        //        }
-
-        //        if (!info.RemovedFromList)
-        //        {
-        //            // Add new room listing.
-        //            if (!listings.ContainsKey(info.Name))
-        //            {
-        //                var listing = Instantiate(roomListingPrefab, contentTrans).GetComponent<RoomListing>();
-        //                listing.SetInfo(info.Name, "Unknown Player", info.PlayerCount, info.MaxPlayers);
-
-        //                listings.Add(info.Name, listing);
-        //            }
-
-        //            // Update room listing.
-        //            else
-        //            {
-        //                listings[info.Name].SetInfo(info.Name, "Unknown Player", info.PlayerCount, info.MaxPlayers);
-        //            }
-        //        }
-        //    }
-        //}
-
     }
 }
