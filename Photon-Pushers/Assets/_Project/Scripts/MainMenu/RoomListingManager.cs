@@ -21,6 +21,11 @@ namespace Gisha.Pushers.MainMenu
             Debug.Log("Creating room...");
         }
 
+        public void OnClick_Refresh()
+        {
+            RefreshListings(PhotonMaster.Instance.Rooms);
+        }
+
         public override void OnCreatedRoom()
         {
             MenuManager.Instance.ChangeMenu(2);
@@ -28,33 +33,28 @@ namespace Gisha.Pushers.MainMenu
 
         public override void OnRoomListUpdate(List<RoomInfo> roomList)
         {
+            RefreshListings(roomList);
+        }
+
+        private void RefreshListings(List<RoomInfo> roomList)
+        {
+            DestroyListings();
+
             foreach (var info in roomList)
             {
-                // Remove room Listing.
-                if (_listings.ContainsKey(info.Name) && info.RemovedFromList)
-                {
-                    Destroy(_listings[info.Name].gameObject);
-                    _listings.Remove(info.Name);
-                }
+                var listing = Instantiate(roomListingPrefab, contentTrans).GetComponent<RoomListing>();
+                listing.SetInfo(info.Name, info.PlayerCount, info.MaxPlayers);
 
-                if (!info.RemovedFromList)
-                {
-                    // Add new room listing.
-                    if (!_listings.ContainsKey(info.Name))
-                    {
-                        var listing = Instantiate(roomListingPrefab, contentTrans).GetComponent<RoomListing>();
-                        listing.SetInfo(info.Name, PhotonNetwork.MasterClient.NickName, info.PlayerCount, info.MaxPlayers);
-
-                        _listings.Add(info.Name, listing);
-                    }
-
-                    // Update room listing.
-                    else
-                    {
-                        _listings[info.Name].SetInfo(info.Name, "Unknown Player", info.PlayerCount, info.MaxPlayers);
-                    }
-                }
+                _listings.Add(info.Name, listing);
             }
+        }
+
+        private void DestroyListings()
+        {
+            foreach (var l in _listings)
+                Destroy(l.Value.gameObject);
+
+            _listings = new Dictionary<string, RoomListing>();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Gisha.Pushers.Photon
@@ -9,6 +10,9 @@ namespace Gisha.Pushers.Photon
         #region Singleton
         public static PhotonMaster Instance { get; private set; }
         #endregion
+
+        public List<RoomInfo> Rooms { get; private set; }
+
         private void Awake()
         {
             PhotonNetwork.LocalPlayer.NickName = $"Player {Random.Range(0, 10000)}";
@@ -93,6 +97,11 @@ namespace Gisha.Pushers.Photon
         public override void OnDisconnected(DisconnectCause cause)
         {
             PhotonNetwork.JoinLobby();
+        }
+
+        public override void OnRoomListUpdate(List<RoomInfo> roomList)
+        {
+            Rooms = roomList;
         }
         #endregion
     }
