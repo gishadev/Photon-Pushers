@@ -1,5 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
+using System.Linq;
 
 namespace Gisha.Pushers.Core
 {
@@ -23,7 +24,8 @@ namespace Gisha.Pushers.Core
             if (!_pv.IsMine)
                 return;
 
-            Spawnpoint = GameManager.Spawnpoints[Mathf.Max(PhotonNetwork.PlayerList.Length - 1, 0)];
+            int index = PhotonNetwork.PlayerList.ToList().FindIndex(x => x == PhotonNetwork.LocalPlayer);
+            Spawnpoint = GameManager.Spawnpoints[index];
             Player = PhotonNetwork.Instantiate("Player", Spawnpoint.position, Quaternion.identity);
             _playerHighlight = Instantiate(playerHighlightPrefab, Player.transform.position, playerHighlightPrefab.transform.rotation).transform;
         }
