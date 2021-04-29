@@ -7,6 +7,7 @@ namespace Gisha.Pushers.MainMenu
     public class RoomGUI : MonoBehaviourPunCallbacks
     {
         [SerializeField] private TMP_Text titleText;
+        [SerializeField] private GameObject startBtn;
 
         public void OnClick_LeaveRoom()
         {
@@ -32,6 +33,11 @@ namespace Gisha.Pushers.MainMenu
         public void SetGUIInfo(string roomName)
         {
             titleText.text = roomName;
+
+            if (!PhotonNetwork.IsMasterClient)
+                startBtn.SetActive(false);
+            else
+                startBtn.SetActive(true);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Gisha.Pushers.MainMenu
         [SerializeField] private GameObject roomListingPrefab;
         [SerializeField] private TMP_Text nameInputText;
 
-        Dictionary<string, RoomListing> _listings = new Dictionary<string, RoomListing>();
+        List<RoomListing> _listings = new List<RoomListing>();
 
         public void OnClick_CreateRoom()
         {
@@ -38,23 +38,33 @@ namespace Gisha.Pushers.MainMenu
 
         private void RefreshListings(List<RoomInfo> roomList)
         {
-            DestroyListings();
-
-            foreach (var info in roomList)
+            foreach (RoomInfo info in roomList)
             {
-                var listing = Instantiate(roomListingPrefab, contentTrans).GetComponent<RoomListing>();
-                listing.SetInfo(info);
+                int index = _listings.FindIndex(x => x.RoomInfo.Name == info.Name);
 
-                _listings.Add(info.Name, listing);
+                // Destroying listing if room was removed.
+                if (info.RemovedFromList && index != -1)
+                {
+                    Destroy(_listings[index].gameObject);
+                    _listings.RemoveAt(index);
+                }
+
+                else if (!info.RemovedFromList)
+                {
+                    // Adding a new room listing.
+                    if (index == -1)
+                    {
+                        RoomListing listing = Instantiate(roomListingPrefab, contentTrans).GetComponent<RoomListing>();
+                        listing.SetInfo(info);
+
+                        _listings.Add(listing);
+                    }
+
+                    // Modifying room listing info.
+                    else
+                        _listings[index].SetInfo(info);
+                }
             }
-        }
-
-        private void DestroyListings()
-        {
-            foreach (var l in _listings)
-                Destroy(l.Value.gameObject);
-
-            _listings = new Dictionary<string, RoomListing>();
         }
     }
 }

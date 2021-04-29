@@ -2536,6 +2536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   titleText: {fileID: 1938461577}
+  startBtn: {fileID: 1617076408}
 --- !u!1 &1420822525
 GameObject:
   m_ObjectHideFlags: 0

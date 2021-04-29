@@ -56,7 +56,7 @@ namespace Gisha.Pushers.Photon
             if (roomName.Length <= 1)
                 roomName = $"{PhotonNetwork.LocalPlayer.NickName}'s Room";
             // Setting room options.
-            RoomOptions opt = new RoomOptions() { MaxPlayers = 2, IsOpen = true, IsVisible = true };
+            RoomOptions opt = new RoomOptions() { MaxPlayers = 2, IsOpen = true, IsVisible = true, EmptyRoomTtl = 0 };
             PhotonNetwork.JoinOrCreateRoom(roomName, opt, TypedLobby.Default);
         }
 
@@ -98,7 +98,7 @@ namespace Gisha.Pushers.Photon
 
         public override void OnJoinRoomFailed(short returnCode, string message)
         {
-            Debug.Log("<color=red>Failed to join a room!</color>");
+            Debug.Log($"<color=red>Failed to join a room!</color> {message}");
         }
 
         public override void OnDisconnected(DisconnectCause cause)
