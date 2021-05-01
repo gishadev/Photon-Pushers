@@ -15,10 +15,12 @@ namespace Gisha.Pushers.Core
                 .Select(x => x.GetComponent<Rigidbody>())
                 .ToArray();
 
-            foreach(var rb in rigidbodies)
+            foreach (var rb in rigidbodies)
             {
-                var direction = (rb.transform.position - transform.position).normalized;
-                rb.AddForce(direction * explosionForce);
+                var direction = rb.transform.position - transform.position;
+
+                if (direction.magnitude < explosionRadius)
+                    rb.AddForce(direction.normalized * explosionForce);
             }
 
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
