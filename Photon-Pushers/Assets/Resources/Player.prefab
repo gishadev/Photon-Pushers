@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 5
-  pushMagnitude: 15
+  pushMagnitude: 25
   jumpForce: 5
   whatIsGround:
     serializedVersion: 2

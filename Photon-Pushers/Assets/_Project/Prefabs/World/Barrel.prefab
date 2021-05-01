@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 919132149504250692}
   - component: {fileID: 357449630}
   - component: {fileID: 357449631}
+  - component: {fileID: 5238066220374840448}
   m_Layer: 0
   m_Name: Barrel
   m_TagString: Untagged
@@ -153,3 +154,18 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 1
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!114 &5238066220374840448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6367744502715962549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 868674692ee69244e9ff7a329f0c63c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionForce: 1000
+  explosionRadius: 3
+  explosionPrefab: {fileID: 6775295010026885691, guid: a94740f3b1799084490a8831abb3a476, type: 3}
