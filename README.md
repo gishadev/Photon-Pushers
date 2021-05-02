@@ -2,7 +2,7 @@
 ### Made with **Unity 2020.2.1f1**
  
 Pushers - duo versus little game, which was created on Unity with Photon Unity Networking System (v2).
-This is my second (more successfull) try in PUN 2. Game concept is simple, but I'm pretty happy with the result.
+This is my second (more successful) try in PUN 2. Game concept is simple, but I'm pretty happy with the result.
 
 ## What I Learned
 
