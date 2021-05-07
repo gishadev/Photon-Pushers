@@ -13,4 +13,3 @@ This is my second (more successful) try in PUN 2. Game concept is simple, but I'
 ## Screenshots
 
 <img alt="Screenshot" width="512" align="center" src="https://github.com/BaggyGishev/Photon-Pushers/blob/main/GithubContents/Screenshot_1.png?raw=true">
-<img alt="Screenshot" width="512" align="center" src="https://github.com/BaggyGishev/Photon-Pushers/blob/main/GithubContents/Screenshot_2.png?raw=true">
